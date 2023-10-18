@@ -37,6 +37,80 @@ resource "random_string" "random" {
   numeric   = false
 }
 
+resource "aws_vpc" "main" {
+ cidr_block = "10.0.0.0/16"
+ 
+ tags = {
+   Name = "Project VPC"
+ }
+}
+
+variable "public_subnet_cidrs" {
+ type        = list(string)
+ description = "Public Subnet CIDR values"
+ default     = ["10.0.1.0/24", "10.0.2.0/24"]
+}
+
+resource "aws_subnet" "public_subnets" {
+ count      = length(var.public_subnet_cidrs)
+ vpc_id     = aws_vpc.main.id
+ cidr_block = element(var.public_subnet_cidrs, count.index)
+ 
+ tags = {
+   Name = "Public Subnet ${count.index + 1}"
+ }
+}
+
+resource "aws_internet_gateway" "gw" {
+ vpc_id = aws_vpc.main.id
+ 
+ tags = {
+   Name = "Project VPC IG"
+ }
+}
+
+resource "aws_route_table" "project_rt" {
+ vpc_id = aws_vpc.main.id
+ 
+ route {
+   cidr_block = "0.0.0.0/0"
+   gateway_id = aws_internet_gateway.gw.id
+ }
+ 
+ tags = {
+   Name = "Project Route Table"
+ }
+}
+
+resource "aws_route_table_association" "public_subnet_asso" {
+ count = length(var.public_subnet_cidrs)
+ subnet_id      = element(aws_subnet.public_subnets[*].id, count.index)
+ route_table_id = aws_route_table.project_rt.id
+}
+
+# data "aws_ami" "amzn-linux-2023-ami" {
+#   most_recent = true
+#   owners      = ["amazon"]
+
+#   filter {
+#     name   = "name"
+#     values = ["al2023-ami-2023.*-x86_64"]
+#   }
+# }
+
+# resource "aws_instance" "example" {
+#   count = length(var.public_subnet_cidrs)
+#   ami           = "ami-02a9d4cace1c5a38a"
+#   instance_type = "t3.micro"
+#   subnet_id     = element(aws_subnet.public_subnets[*].id, count.index)
+
+#   tags = {
+#     Name = "Project ec2 insance"
+#   }
+# }
+ 
+
+
 resource "aws_iam_instance_profile" "ec2_profile" {
   name = var.aws_resource_identifier
   role = aws_iam_role.ec2_role.name
@@ -57,9 +131,10 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "server" {
   # ubuntu
+  count = length(var.public_subnet_cidrs)
   ami                         = var.aws_ami_id != "" ? var.aws_ami_id : data.aws_ami.ubuntu.id
   availability_zone           = local.preferred_az
-  subnet_id                   = data.aws_subnet.selected[0].id
+  subnet_id                   = element(aws_subnet.public_subnets[*].id, count.index)
   instance_type               = var.ec2_instance_type
   associate_public_ip_address = var.ec2_instance_public_ip
   vpc_security_group_ids      = [aws_security_group.ec2_security_group.id]

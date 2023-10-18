@@ -3,6 +3,13 @@ variable "app_port" {
   default     = "3000"
   description = "app port"
 }
+
+variable "azs" {
+ type        = list(string)
+ description = "Availability Zones"
+ default     = ["af-south-1a", "af-south-1b"]
+}
+
 variable "lb_port" {
   type        = string
   default     = ""
