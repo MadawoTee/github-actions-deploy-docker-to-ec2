@@ -63,7 +63,7 @@ docker run --rm --name assessmentops \
 -e DEFAULT_FOLDER_NAME="_default" \
 -e ASSESSMENTOPS_FAST_FAIL="${ASSESSMENTOPS_FAST_FAIL}" \
 -v $(echo $GITHUB_ACTION_PATH)/operations:/opt/assessmentops_deployment \
-bitovi/assessmentops:2.5.0
+assessmentops/assessmentops:2.5.0
 ASSESSMENTOPS_RESULT=$?
 echo "::endgroup::"
 
