@@ -1,0 +1,22 @@
+local.sh
+*.env
+
+# Terraform
+*.terraform.lock*
+.terraform*
+
+# AssessmentOps
+assessmnetops.config.yaml
+
+# AssessmentOps GHAs
+provider.tf
+terraform.tfvars
+
+terraform-*
+operations/deployment/terraform/inventory.yaml
+
+*.pem
+
+*test*
+
+.vscode/
