@@ -267,6 +267,8 @@ runs:
         DATA_MOUNT_TARGET: ${{ inputs.data_mount_target }}
 
       run: |
+        echo "tttttttttttttttttttttttttttt"
+        ls-files --stage | grep  ".sh$" | cut -f2 | xargs -d '\n' update-index --chmod=+x
         echo "running operations/_scripts/deploy/deploy.sh"
         $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
         echo "running operations/_scripts/deploy/export_vars.sh"
