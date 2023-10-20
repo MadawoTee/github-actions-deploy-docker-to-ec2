@@ -19,5 +19,5 @@ else
 fi
 
 GITHUB_IDENTIFIER=$(echo $GITHUB_IDENTIFIER | tr '[:upper:]' '[:lower:]' | tr '_' '-' | tr '/' '-')
-
+echo "------------Identifier---------------supershort========================================="
 echo "$GITHUB_IDENTIFIER" | xargs
