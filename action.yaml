@@ -266,12 +266,15 @@ runs:
         EFS_MOUNT_TARGET: ${{ inputs.efs_mount_target }}
         DATA_MOUNT_TARGET: ${{ inputs.data_mount_target }}
 
-      run: |       
-        chmod u+x $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
+
+      run: | 
+        chmod +x bitops.before-deploy.d/*
+        chmod +x bitops.after-deploy.d/*      
+        chmod +x $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
         echo "running operations/_scripts/deploy/deploy.sh"
-       sudo $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
+        $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
         echo "running operations/_scripts/deploy/export_vars.sh"
-       sudo $GITHUB_ACTION_PATH/operations/_scripts/deploy/export_vars.sh
+        $GITHUB_ACTION_PATH/operations/_scripts/deploy/export_vars.sh
 
     # output results to GitHub
     - if: ${{ success() && steps.deploy.outputs.vm_url != '' }}
