@@ -273,9 +273,9 @@ runs:
 
       run: |       
         echo "running operations/_scripts/deploy/deploy.sh"       
-        $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
+        $GITHUB_ACTION_PATH/deploy.sh
         echo "running operations/_scripts/deploy/export_vars.sh"        
-        $GITHUB_ACTION_PATH/operations/_scripts/deploy/export_vars.sh
+        $GITHUB_ACTION_PATH/export_vars.sh
 
     # output results to GitHub
     - if: ${{ success() && steps.deploy.outputs.vm_url != '' }}
