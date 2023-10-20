@@ -195,6 +195,10 @@ outputs:
     description: "The URL of the generated app"
     value: ${{ steps.deploy.outputs.vm_url }}
 
+runs:    
+  chmod +x $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
+  chmod +x $GITHUB_ACTION_PATH/operations/_scripts/deploy/export_vars.sh
+  
 runs:
   using: 'composite'
   steps:
@@ -266,12 +270,10 @@ runs:
         EFS_MOUNT_TARGET: ${{ inputs.efs_mount_target }}
         DATA_MOUNT_TARGET: ${{ inputs.data_mount_target }}
 
-      run: |
-        echo "running operations/_scripts/deploy/deploy.sh"
-        chmod +x $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
+      run: |       
+        echo "running operations/_scripts/deploy/deploy.sh"       
         $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
-        echo "running operations/_scripts/deploy/export_vars.sh"
-        chmod +x $GITHUB_ACTION_PATH/operations/_scripts/deploy/export_vars.sh
+        echo "running operations/_scripts/deploy/export_vars.sh"        
         $GITHUB_ACTION_PATH/operations/_scripts/deploy/export_vars.sh
 
     # output results to GitHub
