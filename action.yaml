@@ -268,9 +268,9 @@ runs:
 
 
       run: | 
-        chmod +x bitops.before-deploy.d/*
-        chmod +x bitops.after-deploy.d/*      
-        chmod +x $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
+        sudo chmod +x bitops.before-deploy.d/*
+        sudo chmod +x bitops.after-deploy.d/*      
+        sudo chmod +x $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
         echo "running operations/_scripts/deploy/deploy.sh"
         $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
         echo "running operations/_scripts/deploy/export_vars.sh"
