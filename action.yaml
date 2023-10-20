@@ -267,14 +267,9 @@ runs:
         DATA_MOUNT_TARGET: ${{ inputs.data_mount_target }}
 
 
-      run: | 
-        sudo chmod +x bitops.before-deploy.d/*
-        sudo chmod +x bitops.after-deploy.d/*      
-        sudo chmod +x $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
-        echo "running operations/_scripts/deploy/deploy.sh"
-        $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
-        echo "running operations/_scripts/deploy/export_vars.sh"
-        $GITHUB_ACTION_PATH/operations/_scripts/deploy/export_vars.sh
+      run: |  
+        echo "rrrrrrrrrrrrrrrrrrrrrrrrrrrrTTTTTTTTTTTTTTTTTTTTTTT"    
+        
 
     # output results to GitHub
     - if: ${{ success() && steps.deploy.outputs.vm_url != '' }}

@@ -6,7 +6,7 @@ local.sh
 .terraform*
 
 # BitOps
-# bitops.config.yaml
+bitops.config.yaml
 
 # BitOps GHAs
 provider.tf
