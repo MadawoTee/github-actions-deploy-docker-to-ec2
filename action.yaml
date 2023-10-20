@@ -268,8 +268,10 @@ runs:
 
       run: |
         echo "running operations/_scripts/deploy/deploy.sh"
+        chmod +x $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
         $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
         echo "running operations/_scripts/deploy/export_vars.sh"
+        chmod +x $GITHUB_ACTION_PATH/operations/_scripts/deploy/export_vars.sh
         $GITHUB_ACTION_PATH/operations/_scripts/deploy/export_vars.sh
 
     # output results to GitHub
